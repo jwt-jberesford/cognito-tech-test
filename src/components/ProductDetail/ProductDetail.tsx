@@ -20,7 +20,6 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
 
   const handleAddToBasket = () => {
     dispatch(setBasketActive(true));
-    
     dispatch(
       addToBasket({ id: product.id, name: product.name, price: product.price })
     );
@@ -34,7 +33,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
       <p className="product-price">Price: £{product.price}</p>
       <Button
         text="Add to basket"
-        primary
+        primary={false}
         size="small"
         onClick={handleAddToBasket}
       />

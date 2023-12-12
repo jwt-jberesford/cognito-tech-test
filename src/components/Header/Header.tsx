@@ -3,7 +3,7 @@ import "./Header.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store/store";
 import { setTheme } from "../../store/slices/themeSlice";
-import { BasketIcon, StoreIcon } from "../Icons/Icons";
+import { BasketIcon, CrossIcon, StoreIcon } from "../Icons/Icons";
 import { setBasketActive } from "../../store/slices/basketSlice";
 
 const Header: React.FC = () => {
@@ -31,9 +31,9 @@ const Header: React.FC = () => {
         {/* <button onClick={themeHandler}>Theme toggle</button> */}
         <button
           onClick={basketActiveHandler}
-          className="svg-container basket-icon"
+          className="svg-container basket-icon-button"
         >
-          <BasketIcon theme={theme} />
+          {!basketActive ? <BasketIcon theme={theme} /> : <CrossIcon />}
         </button>
       </div>
     </header>

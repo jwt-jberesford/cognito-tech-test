@@ -4,12 +4,17 @@
   display: flex;
   justify-content: space-between;
 
-  margin: 4rem 0;
+  margin: 2rem 2rem 2rem 0;
 }
 
 .item-name {
   font-size: 1.1rem;
   font-weight: 500;
+}
+
+.item-price {
+  font-weight: 500;
+  font-size: 1.2rem;
 }
 
 .item-right {

@@ -48,7 +48,7 @@ const BasketItem: React.FC<BasketItemProps> = ({ product }) => {
     <div className="item-wrapper">
       <h4 className="item-name">{product.name}</h4>
       <div className="item-right">
-        <p className="item-price">Price: £{totalPrice}</p>
+        <p className="item-price">£{totalPrice}</p>
 
         <div className="item-quantity">
           <button
