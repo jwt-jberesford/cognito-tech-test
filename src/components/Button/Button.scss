@@ -1,0 +1,33 @@
+@import "../../variables.scss";
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  border-radius: 0.5rem;
+}
+
+.primary {
+  border: 3px solid $green-main;
+}
+
+.secondary {
+  border: 2px solid $green-main;
+}
+
+.small {
+  padding: 0.4rem 0.8rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.medium {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.2rem;
+}
+
+.large {
+  padding: 1rem 2rem;
+  font-size: 1.4rem;
+}

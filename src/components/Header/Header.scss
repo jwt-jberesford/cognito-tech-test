@@ -1,0 +1,24 @@
+.header-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 1rem 0;
+}
+
+.header-left,
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.store-logo {
+  height: 3rem;
+  width: 3rem;
+  margin-right: 1rem;
+}
+
+.basket-icon {
+  height: 2rem;
+  width: 2rem;
+}

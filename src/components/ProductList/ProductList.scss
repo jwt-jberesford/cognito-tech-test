@@ -1,0 +1,36 @@
+@import "../../variables.scss";
+
+.products-wrapper {
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    font-weight: 600;
+    font-size: 1.8rem;
+    text-decoration: underline;
+    text-underline-offset: 6px;
+    text-decoration-thickness: 3px;
+    text-decoration-color: $green-main;
+  }
+}
+
+.top-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 4rem 0;
+
+  button {
+    width: 0.75rem;
+
+    &:nth-child(1) {
+      margin-right: 2rem;
+    }
+  }
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 3rem 1rem;
+}
