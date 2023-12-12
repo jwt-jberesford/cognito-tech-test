@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import ProductDetail from "../ProductDetail/ProductDetail";
 import "./ProductList.scss";
 import { NextIcon, PrevIcon } from "../Icons/Icons";
@@ -11,76 +12,46 @@ interface ProductData {
 }
 
 const ProductList: React.FC = () => {
+  const [products, setProducts] = useState<ProductData[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
-  const tempData: ProductData[] = [
-    {
-      id: 1,
-      name: "Gala Apples (5 lbs)",
-      description: "Crisp and delicious apples for a healthy snack.",
-      price: 3.49,
-    },
-    {
-      id: 2,
-      name: "UK-Grade Ground Beef (1 lb)",
-      description: "High-quality ground beef for your favorite recipes.",
-      price: 5.99,
-    },
-    {
-      id: 3,
-      name: "Organic Milk (1 gallon)",
-      description: "Nutrient-rich organic milk for the family.",
-      price: 1.99,
-    },
-    {
-      id: 4,
-      name: "Fresh Broccoli (per bunch)",
-      description: "Tender broccoli for steaming or roasting.",
-      price: 1.49,
-    },
-    {
-      id: 5,
-      name: "Free-Range Large Eggs (dozen)",
-      description: "Farm-fresh eggs for your morning omelette.",
-      price: 2.29,
-    },
-    {
-      id: 6,
-      name: "Wholemeal Bread (loaf)",
-      description: "Nutrient-packed wholemeal bread for sandwiches.",
-      price: 1.79,
-    },
-    {
-      id: 7,
-      name: "Scottish Salmon Fillet (per lb)",
-      description: "Delicious salmon fillet for a healthy dinner.",
-      price: 12.99,
-    },
-    {
-      id: 8,
-      name: "Bananas (per lb)",
-      description: "Sweet and ripe bananas for snacking.",
-      price: 0.89,
-    },
-    {
-      id: 9,
-      name: "Fresh Spinach (per bunch)",
-      description: "Leafy spinach for salads or sautéing.",
-      price: 1.99,
-    },
-    {
-      id: 10,
-      name: "Orange Juice (1 litre)",
-      description: "Freshly squeezed orange juice for a vitamin C boost.",
-      price: 1.99,
-    },
-  ];
+  const [error, setError] = useState<string | null>(null);
+  const gridItemMinWidth = 300; 
+  const [itemsPerPage, setItemsPerPage] = useState(15); 
 
-  const itemsPerPage = 6;
-  const totalPages = Math.ceil(tempData.length / itemsPerPage);
+  useEffect(() => {
+    const handleResize = () => {
+      const gridContainer = document.querySelector(".product-grid");
+      const gridContainerWidth = gridContainer
+        ? gridContainer.clientWidth
+        : window.innerWidth;
+      const itemsPerRow = Math.floor(gridContainerWidth / gridItemMinWidth);
+      setItemsPerPage(itemsPerRow * 3);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(
+        "https://s3.eu-west-2.amazonaws.com/techassessment.cognitoedu.org/products.json"
+      )
+      .then((response) => {
+        setProducts(response.data);
+      })
+      .catch((error) => {
+        setError("Failed to fetch products");
+      });
+  }, []);
+
+  const totalPages = Math.ceil(products.length / itemsPerPage);
 
   const getPaginatedData = (): ProductData[] => {
     const startIndex = currentPage * itemsPerPage;
-    return tempData.slice(startIndex, startIndex + itemsPerPage);
+    return products.slice(startIndex, startIndex + itemsPerPage);
   };
 
   const prevPageHandler = () => {
@@ -113,9 +84,13 @@ const ProductList: React.FC = () => {
         </div>
       </div>
       <div className="product-grid">
-        {getPaginatedData().map((product) => (
-          <ProductDetail product={product} key={product.id} />
-        ))}
+        {error ? (
+          <p>{error}</p>
+        ) : (
+          getPaginatedData().map((product) => (
+            <ProductDetail product={product} key={product.id} />
+          ))
+        )}
       </div>
     </div>
   );
