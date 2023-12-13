@@ -18,6 +18,9 @@ const ProductList: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [itemsPerPage, setItemsPerPage] = useState<number>(15);
   const theme = useSelector((state: RootState) => state.theme.theme);
+  const totalPages = Math.ceil(products.length / itemsPerPage);
+  const prevButtonDisabled = currentPage === 0;
+  const nextButtonDisabled = currentPage >= totalPages - 1;
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -51,15 +54,10 @@ const ProductList: React.FC = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const totalPages = Math.ceil(products.length / itemsPerPage);
-
   const getPaginatedData = (): ProductData[] => {
     const startIndex = currentPage * itemsPerPage;
     return products.slice(startIndex, startIndex + itemsPerPage);
   };
-
-  const prevButtonDisabled = currentPage === 0;
-  const nextButtonDisabled = currentPage >= totalPages - 1;
 
   const changePage = (newPage: number) => {
     setCurrentPage(newPage);

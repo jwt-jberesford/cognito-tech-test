@@ -24,6 +24,8 @@ const BasketItem: React.FC<BasketItemProps> = ({ product }) => {
   const dispatch = useDispatch();
   const totalPrice = (product.price * quantity).toFixed(2);
   const theme = useSelector((state: RootState) => state.theme.theme);
+  const isDecreaseDisabled = quantity <= 1;
+  const isIncreaseDisabled = quantity >= 999;
 
   const handleQuantityChange = (newQuantity: number) => {
     setQuantity(newQuantity);
@@ -49,9 +51,6 @@ const BasketItem: React.FC<BasketItemProps> = ({ product }) => {
   useEffect(() => {
     setQuantity(product.quantity);
   }, [product.quantity]);
-
-  const isDecreaseDisabled = quantity <= 1;
-  const isIncreaseDisabled = quantity >= 999;
 
   return (
     <div className="item-wrapper">
@@ -81,10 +80,7 @@ const BasketItem: React.FC<BasketItemProps> = ({ product }) => {
           </button>
         </div>
 
-        <button
-          onClick={handleRemove}
-          className={`remove-item ${theme}`}
-        >
+        <button onClick={handleRemove} className={`remove-item ${theme}`}>
           Remove
         </button>
       </div>
