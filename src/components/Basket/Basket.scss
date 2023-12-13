@@ -4,7 +4,7 @@
   min-height: 100vh;
   height: 100%;
   width: 30rem;
-  background: white;
+  background: $light-primary;
   border-left: 3px solid $green-main;
   position: fixed;
   top: 0;
@@ -32,13 +32,16 @@
   }
 }
 
+.dark {
+  background: $dark-primary;
+}
+
 .basket-items {
   overflow-y: auto;
   margin: 1rem 0;
   flex-grow: 1;
   position: relative;
 
-  // Real scrollbar styles
   &::-webkit-scrollbar {
     width: 0.5rem;
     background: light;

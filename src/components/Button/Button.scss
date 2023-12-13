@@ -27,6 +27,7 @@
 
   transition: all 0.5s ease;
   border: 3px solid $green-main;
+  background: none;
 
   &:hover {
     background: $green-main;
