@@ -1,1 +1,0 @@
-# cognito-tech-test
