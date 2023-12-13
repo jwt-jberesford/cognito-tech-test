@@ -1,0 +1,39 @@
+@import "../variables.scss";
+
+.inner-wrapper {
+  padding: 1.2rem 2.4rem;
+  min-height: 100vh;
+}
+
+.outer-wrapper {
+  max-height: 100vh;
+  transition: all 0.5s ease-in-out;
+}
+
+.light {
+  background: $light-primary;
+  color: $dark-primary;
+}
+
+.dark {
+  background: $dark-primary;
+  color: $light-primary;
+}
+
+@media (min-width: 400px) {
+  .inner-wrapper {
+    padding: 1.5rem 3rem;
+  }
+}
+
+@media (min-width: 500px) {
+  .inner-wrapper {
+    padding: 1.75rem 3.5rem;
+  }
+}
+
+@media (min-width: 700px) {
+  .inner-wrapper {
+    padding: 2rem 4rem;
+  }
+}
