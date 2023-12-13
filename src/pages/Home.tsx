@@ -9,10 +9,14 @@ const Home: React.FC = () => {
   const dispatch = useDispatch();
   const basketRef = useRef<HTMLDivElement | null>(null);
 
-  const handleClickOutside = (event: MouseEvent) => {
+  const handleClickOutside = (e: MouseEvent) => {
+    const targetElement = e.target as HTMLElement;
+    const innerText = targetElement.innerText;
+
     if (
+      innerText !== "Add to basket" &&
       basketRef.current &&
-      !basketRef.current.contains(event.target as Node)
+      !basketRef.current.contains(e.target as Node)
     ) {
       dispatch(setBasketActive(false));
     }
