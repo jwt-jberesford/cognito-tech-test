@@ -45,7 +45,17 @@
 }
 
 .remove-item {
-  font-size: 1rem;
+  font-size: 1.1rem;
+  font-weight: 400;
   margin-top: 0.5rem;
   text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.light {
+  color: $dark-primary;
+}
+
+.dark {
+  color: $light-primary;
 }

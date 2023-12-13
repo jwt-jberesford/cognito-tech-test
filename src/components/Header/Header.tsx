@@ -3,7 +3,7 @@ import "./Header.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store/store";
 import { setTheme } from "../../store/slices/themeSlice";
-import { BasketIcon, CrossIcon, StoreIcon } from "../Icons/Icons";
+import { BasketIcon, CrossIcon, StoreIcon, ThemeIcon } from "../Icons/Icons";
 import { setBasketActive } from "../../store/slices/basketSlice";
 
 const Header: React.FC = () => {
@@ -11,9 +11,9 @@ const Header: React.FC = () => {
   const theme = useSelector((state: RootState) => state.theme.theme);
   const basketActive = useSelector((state: RootState) => state.basket.active);
 
-  // const themeHandler = () => {
-  //   dispatch(setTheme(theme === "light" ? "dark" : "light"));
-  // };
+  const themeHandler = () => {
+    dispatch(setTheme(theme === "light" ? "dark" : "light"));
+  };
 
   const basketActiveHandler = () => {
     dispatch(setBasketActive(!basketActive));
@@ -28,7 +28,9 @@ const Header: React.FC = () => {
         <h1 id="logo">iStore</h1>
       </div>
       <div className="header-right">
-        {/* <button onClick={themeHandler}>Theme toggle</button> */}
+        <button onClick={themeHandler} className="theme-button svg-container">
+          <ThemeIcon theme={theme} />
+        </button>
         <button
           onClick={basketActiveHandler}
           className="svg-container basket-icon-button"

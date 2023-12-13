@@ -9,19 +9,19 @@ import Button from "../Button/Button";
 const Basket: React.FC = () => {
   const basketActive = useSelector((state: RootState) => state.basket.active);
   const basketItems = useSelector((state: RootState) => state.basket.items);
+  const theme = useSelector((state: RootState) => state.theme.theme);
 
   return (
     <AnimatePresence>
       {basketActive && (
         <motion.div
-          className="styled-basket"
+          className={`styled-basket ${theme}`}
           initial="hidden"
           animate="visible"
           exit="exit"
           transition={{ duration: 0.5, ease: "easeInOut" }}
         >
           <h3>Your Basket</h3>
-
           {basketItems.length ? (
             <>
               <div className="basket-items">

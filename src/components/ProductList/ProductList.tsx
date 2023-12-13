@@ -3,6 +3,8 @@ import axios from "axios";
 import ProductDetail from "../ProductDetail/ProductDetail";
 import "./ProductList.scss";
 import { NextIcon, PrevIcon } from "../Icons/Icons";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 interface ProductData {
   id: number;
@@ -13,38 +15,39 @@ interface ProductData {
 
 const ProductList: React.FC = () => {
   const [products, setProducts] = useState<ProductData[]>([]);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [error, setError] = useState<string | null>(null);
-  const gridItemMinWidth = 300; 
-  const [itemsPerPage, setItemsPerPage] = useState(15); 
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(15);
+  const theme = useSelector((state: RootState) => state.theme.theme);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get<ProductData[]>(
+          "https://s3.eu-west-2.amazonaws.com/techassessment.cognitoedu.org/products.json"
+        );
+        setProducts(response.data);
+      } catch (error) {
+        console.error("Error fetching products: ", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
       const gridContainer = document.querySelector(".product-grid");
-      const gridContainerWidth = gridContainer
-        ? gridContainer.clientWidth
-        : window.innerWidth;
+      const gridContainerWidth =
+        gridContainer?.clientWidth ?? window.innerWidth;
+      const gridItemMinWidth = 300;
       const itemsPerRow = Math.floor(gridContainerWidth / gridItemMinWidth);
       setItemsPerPage(itemsPerRow * 3);
     };
 
-    handleResize();
     window.addEventListener("resize", handleResize);
+    handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get(
-        "https://s3.eu-west-2.amazonaws.com/techassessment.cognitoedu.org/products.json"
-      )
-      .then((response) => {
-        setProducts(response.data);
-      })
-      .catch((error) => {
-        setError("Failed to fetch products");
-      });
   }, []);
 
   const totalPages = Math.ceil(products.length / itemsPerPage);
@@ -54,12 +57,11 @@ const ProductList: React.FC = () => {
     return products.slice(startIndex, startIndex + itemsPerPage);
   };
 
-  const prevPageHandler = () => {
-    setCurrentPage((prev) => (prev > 0 ? prev - 1 : prev));
-  };
+  const prevButtonDisabled = currentPage === 0;
+  const nextButtonDisabled = currentPage >= totalPages - 1;
 
-  const nextPageHandler = () => {
-    setCurrentPage((prev) => (prev < totalPages - 1 ? prev + 1 : prev));
+  const changePage = (newPage: number) => {
+    setCurrentPage(newPage);
   };
 
   return (
@@ -68,29 +70,27 @@ const ProductList: React.FC = () => {
         <h2>Our Products</h2>
         <div className="arrow-wrapper">
           <button
-            onClick={prevPageHandler}
-            disabled={currentPage === 0}
+            onClick={() => changePage(Math.max(currentPage - 1, 0))}
+            disabled={prevButtonDisabled}
             className="svg-container"
           >
-            <PrevIcon />
+            <PrevIcon theme={theme} disabled={prevButtonDisabled} />
           </button>
           <button
-            onClick={nextPageHandler}
-            disabled={currentPage === totalPages - 1}
+            onClick={() =>
+              changePage(Math.min(currentPage + 1, totalPages - 1))
+            }
+            disabled={nextButtonDisabled}
             className="svg-container"
           >
-            <NextIcon />
+            <NextIcon theme={theme} disabled={nextButtonDisabled} />
           </button>
         </div>
       </div>
       <div className="product-grid">
-        {error ? (
-          <p>{error}</p>
-        ) : (
-          getPaginatedData().map((product) => (
-            <ProductDetail product={product} key={product.id} />
-          ))
-        )}
+        {getPaginatedData().map((product) => (
+          <ProductDetail product={product} key={product.id} />
+        ))}
       </div>
     </div>
   );
