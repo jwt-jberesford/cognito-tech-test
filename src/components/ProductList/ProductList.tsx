@@ -39,9 +39,10 @@ const ProductList: React.FC = () => {
       const gridContainer = document.querySelector(".product-grid");
       const gridContainerWidth =
         gridContainer?.clientWidth ?? window.innerWidth;
-      const gridItemMinWidth = 300;
+      const gridItemMinWidth = 225;
       const itemsPerRow = Math.floor(gridContainerWidth / gridItemMinWidth);
-      setItemsPerPage(itemsPerRow * 3);
+
+      setItemsPerPage(itemsPerRow * 3 || 3);
     };
 
     window.addEventListener("resize", handleResize);

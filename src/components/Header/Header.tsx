@@ -16,7 +16,7 @@ const Header: React.FC = () => {
   };
 
   const basketActiveHandler = () => {
-    dispatch(setBasketActive(!basketActive));
+    dispatch(setBasketActive(true));
   };
 
   return (
